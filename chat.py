@@ -21,27 +21,6 @@ import conversation
 import apiaccess
 
 
-def get_auth_string(auth_or_path):
-    """Retrieves authentication string from string or file.
-
-    Args:
-        auth_or_path (str): Authentication string or path to file containing it
-
-    Returns:
-        str: Authentication string.
-
-    """
-    if ":" in auth_or_path:
-        return auth_or_path
-    try:
-        with open(auth_or_path) as stream:
-            content = stream.read()
-            content = content.strip()
-            if ":" in content:
-                return content
-    except FileNotFoundError:
-        pass
-    raise ValueError(auth_or_path)
 
 
 def new_case_id():
@@ -58,29 +37,11 @@ def new_case_id():
     return uuid.uuid4().hex
 
 
-def parse_args():
-    """Parses command line arguments.
-
-    Returns:
-        argparse.Namespace: Namespace containing three public attributes:
-            1. auth (str) - authentication credentials.
-            2. model (str) - chosen language model.
-    """
-    parser = argparse.ArgumentParser()
-    parser.add_argument("auth",
-                        help="authentication string for Infermedica API: "
-                             "APP_ID:APP_KEY or path to file containing it.")
-    parser.add_argument("--model",
-                        help="use non-standard Infermedica model/language, "
-                             "e.g. infermedica-es")
-    args = parser.parse_args()
-    return args
-
 
 def run():
     """Runs the main application."""
-    args = parse_args()
-    auth_string = get_auth_string(args.auth)
+    
+    auth_string = "719f2ba6:3aa363e21546a0fb03daed12aae8f3a8"
     case_id = new_case_id()
 
     # Read patient's age and sex; required by /diagnosis endpoint.
